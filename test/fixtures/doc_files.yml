@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  doc_proj_id: 
+  name: MyString
+  path: MyString
+
+two:
+  doc_proj_id: 
+  name: MyString
+  path: MyString

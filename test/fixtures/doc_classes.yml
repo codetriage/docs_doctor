@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  doc_files_id: 
+  name: MyString
+
+two:
+  doc_files_id: 
+  name: MyString
