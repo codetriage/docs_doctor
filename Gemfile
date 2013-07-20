@@ -44,6 +44,8 @@ gem 'wicked'
 gem 'rails_autolink'
 gem 'bluecloth'
 
+gem 'puma'
+
 gem 'rails_12factor', group: :production
 gem 'rrrretry'
 
@@ -76,3 +78,6 @@ end
 
 
 gem 'rdoc', '~>4.0.1'
+
+
+gem 'protected_attributes'
