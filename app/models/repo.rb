@@ -1,4 +1,6 @@
 class Repo < ActiveRecord::Base
+  include ResqueDef
+
   #validate :github_url_exists, :on => :create
   validate :name, uniqueness: {scope: :user_name, case_sensitive: false }
 
@@ -19,6 +21,17 @@ class Repo < ActiveRecord::Base
   has_many :doc_comments, through: :doc_methods
 
   include WhereOrCreate
+
+  def process!
+    fetcher = GithubFetcher.new(self.full_name)
+    parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
+    parser.process
+    parser.store(self)
+  end
+
+  resque_def(:background_process) do |id|
+    Repo.find(id).process!
+  end
 
   def methods_missing_docs
     doc_methods.where(doc_methods: {doc_comments_count: 0})

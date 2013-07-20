@@ -78,6 +78,3 @@ end
 
 
 gem 'rdoc', '~>4.0.1'
-
-
-gem 'protected_attributes'
