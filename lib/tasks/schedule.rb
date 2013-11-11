@@ -6,10 +6,10 @@ namespace :schedule do
     end
   end
 
-  # desc "sends all users an undocumented method or class of a repo they are following"
-  # task :user_send_doc do
-  #   User.find_each do |user|
-  #     user.subscribe_docs!
-  #   end
-  # end
+  desc "sends all users an undocumented method or class of a repo they are following"
+  task :user_send_doc do
+    User.find_each do |user|
+      User.background_subscribe_docs(user.id)
+    end
+  end
 end

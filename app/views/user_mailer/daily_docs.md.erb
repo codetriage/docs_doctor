@@ -1,0 +1,16 @@
+Hi,
+
+## Yo
+
+
+<% @docs.each do |doc| %>
+Name:
+  <%= doc.name %>
+
+Location:
+  <%= GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.doc_file.path, doc.line).to_github %>
+
+<% end %>
+
+--
+@schneems

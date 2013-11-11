@@ -73,11 +73,15 @@ GEM
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.0)
+    kramdown (1.1.0)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mail_view (1.0.3)
       tilt
+    maildown (0.0.1)
+      kramdown
+      rails (> 3.2.0)
     mime-types (1.23)
     minitest (4.7.5)
     mono_logger (1.1.0)
@@ -209,6 +213,7 @@ DEPENDENCIES
   jbuilder (~> 1.0.1)
   jquery-rails
   mail_view (~> 1.0.2)
+  maildown
   omniauth-github
   pg
   puma

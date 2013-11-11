@@ -78,3 +78,5 @@ end
 
 
 gem 'rdoc', '~>4.0.1'
+
+gem 'maildown'

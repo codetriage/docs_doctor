@@ -10,13 +10,40 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :private, :email, :password, :password_confirmation, :remember_me, :zip, :phone_number, :twitter,
   #                 :github, :github_access_token, :avatar_url, :name, :favorite_languages, :daily_issue_limit
-
   has_many :repo_subscriptions, dependent: :destroy
-  has_many :repos, :through => :repo_subscriptions
+  has_many :doc_assignments, through: :repo_subscriptions
+  has_many :repos, through: :repo_subscriptions
 
   scope :public, where("private is not true")
 
   alias_attribute :token, :github_access_token
+
+  include ResqueDef
+
+  def subscribe_docs!
+    subscriptions = self.repo_subscriptions.ready_for_docs.order('RANDOM()')
+    docs          = subscriptions.flat_map do |sub|
+      sub.unassigned_doc_methods.map { |doc| sub.assign_doc_method(doc); doc }
+    end.compact
+    return false if docs.blank?
+    # UserMailer.send_daily_method_doc_for(user: self, docs: docs).deliver
+    docs
+  end
+
+
+  def assign_method_doc(doc)
+    return if doc.blank?
+    # ActiveRecord::Base.transaction do
+      self.doc_assignments.create!(doc_method_id: doc.id)
+      self.update_attributes(last_sent_at: Time.now)
+    # end
+    assigned_doc_method_ids << doc.id
+    doc
+  end
+
+  resque_def(:background_subscribe_docs) do |id|
+    User.find(id).subscribe_docs!
+  end
 
   def self.random
     order("RANDOM()")

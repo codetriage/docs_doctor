@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130720231123) do
+ActiveRecord::Schema.define(version: 20130723024046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "doc_assignments", force: true do |t|
+    t.integer  "repo_id"
+    t.integer  "repo_subscription_id"
+    t.integer  "user_id"
+    t.integer  "doc_method_id"
+    t.integer  "doc_class_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "doc_assignments", ["repo_id"], name: "index_doc_assignments_on_repo_id", using: :btree
+  add_index "doc_assignments", ["repo_subscription_id"], name: "index_doc_assignments_on_repo_subscription_id", using: :btree
+  add_index "doc_assignments", ["user_id"], name: "index_doc_assignments_on_user_id", using: :btree
 
   create_table "doc_classes", force: true do |t|
     t.integer  "doc_file_id"
@@ -22,6 +36,7 @@ ActiveRecord::Schema.define(version: 20130720231123) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "doc_comments_count", default: 0, null: false
+    t.integer  "line"
   end
 
   add_index "doc_classes", ["doc_file_id"], name: "index_doc_classes_on_doc_file_id", using: :btree
@@ -80,6 +95,7 @@ ActiveRecord::Schema.define(version: 20130720231123) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "excluded"
   end
 
   create_table "users", force: true do |t|
@@ -93,9 +109,15 @@ ActiveRecord::Schema.define(version: 20130720231123) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.boolean  "admin"
+    t.string   "name"
+    t.boolean  "private"
+    t.string   "github"
+    t.string   "github_access_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["github"], name: "index_users_on_github", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

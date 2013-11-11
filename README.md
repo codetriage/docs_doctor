@@ -41,9 +41,36 @@ DocClass has many DocComments
 ## Scratch
 
 
-repo    = Repo.where_or_create(full_name: "rails/rails")
+reload!
+repo    = Repo.where_or_create(full_name: "schneems/threaded_in_memory_queue")
 fetcher = GithubFetcher.new(repo.full_name)
-files   = '/Users/schneems/documents/projects/rails/**/*.rb'
 parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
 parser.process
 parser.store(repo)
+puts DocFile.last.path
+
+
+repo    = Repo.where_or_create(full_name: "rails/rails")
+# files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo) # DocFile.destroy_all repo = Repo.last
+doc  = repo.methods_missing_docs.first
+GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.doc_file.path, doc.line).to_github
+
+
+repo    = Repo.where_or_create(full_name: "rails/rails")
+files   = '/Users/schneems/documents/projects/rails/**/*.rb'
+parser = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
+parser.process
+parser.store(repo)
+
+# DocFile.destroy_all repo = Repo.last
+doc  = repo.methods_missing_docs.first
+
+
+https://github.com/schneems/threaded_in_memory_queue/blob/master/threaded_in_memory_queue/test/threaded_in_memory_queue/master_test.rb/#L5
+
+https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_in_memory_queue/master_test.rb#L5
+
+
+
+
+Grab all subscriptions, pull out one doc_method from each

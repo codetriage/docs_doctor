@@ -15,10 +15,11 @@ class Repo < ActiveRecord::Base
   has_many :users, :through => :repo_subscriptions
 
   has_many :subscribers, through: :repo_subscriptions, source: :user
-  has_many :doc_files
+  has_many :doc_files, dependent: :destroy
   has_many :doc_classes,  through: :doc_files
   has_many :doc_methods,  through: :doc_classes
   has_many :doc_comments, through: :doc_methods
+  alias_attribute :exclude, :excluded
 
   include WhereOrCreate
 
