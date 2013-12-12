@@ -9,12 +9,11 @@ DocsDoctorWeb::Application.load_tasks
 $:.unshift File.expand_path 'lib'
 
 require 'docs_doctor'
-
 require 'docs_doctor/task'
-
 require 'resque/tasks'
 
-
-task "resque:setup" => :environment do
+Rake::Task.define_task("resque:setup" => :environment) do |t, args|
+  ENV["QUEUE"] = "*"
   Resque.before_fork = Proc.new { ActiveRecord::Base.establish_connection }
 end
+

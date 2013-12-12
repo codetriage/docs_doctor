@@ -1,2 +1,2 @@
-web: puma -C config/puma.rb
-worker: bundle exec rake resque:work VVERBOSE=1 QUEUE=*
+web: puma -C config/puma.rb -p $PORT
+worker: bundle exec rake q:work

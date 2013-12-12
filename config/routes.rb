@@ -1,55 +1,34 @@
+
 DocsDoctorWeb::Application.routes.draw do
-  devise_for :users
+  get "users/sign_in" => redirect('/users/auth/github'), via: [:get, :post]
+  get "users/sign_up" => redirect('/users/auth/github'), via: [:get, :post]
+
+  devise_for  :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks",  registrations: "users"}
 
   if Rails.env.development?
     mount UserMailer::Preview => 'mail_view'
   end
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  root        :to => "pages#index"
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  resources   :users
+  get         "/users/unsubscribe/:account_delete_token" => "users#token_delete", as: :token_delete_user
+  delete      "/users/unsubscribe/:account_delete_token" => "users#token_destroy"
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  resources   :repo_subscriptions
+  # format: false gives us rails 3.0 style routes so angular/angular.js is interpreted as
+  # user_name: "angular", name: "angular.js" instead of using the "js" as a format
+  scope format: false do
+    resources :repos, only: %w[index new create]
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+    scope ':full_name' do
+      constraints full_name: %r{[-_.a-zA-Z0-9]+/[-_.a-zA-Z0-9]+} do
+        get '/',            to: 'repos#show',        as: 'repo'
+        put '/',            to: 'repos#update',      as:  nil
+        get '/edit',        to: 'repos#edit',        as: 'edit_repo'
+        get '/subscribers', to: 'subscribers#show',  as: 'repo_subscribers'
+      end
+    end
+  end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

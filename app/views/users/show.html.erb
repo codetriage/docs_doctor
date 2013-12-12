@@ -1,0 +1,72 @@
+<div class="span4">
+  <h2><%= "#{@user.github }"%></h2>
+  <% if current_user.blank? %>
+
+    Are you <%= @user.github %>?<br />
+    <span class="active"><%= link_to 'Login', new_user_registration_path %></span>
+    to edit your account
+
+  <% end %>
+
+  <% if current_user && current_user == @user %>
+    <section id="user-details"</section>
+      <dl>
+
+        <dt>Email</dt>
+        <dd><%= @user.email %></dd>
+        <small class='muted'>Only visible to you</small>
+
+        <dt>Publicly visible?</dt>
+        <dd><%= @user.public? ? "Yes" : "No" %></dd>
+        <% if @user.public? %>
+          <%= link_to "Make account private", users_path(user: {private: true}), method: :put, :class => 'btn btn-primary'  %>
+        <% else %>
+          <%= link_to "Make account public", users_path(user: {private: false}), method: :put, :class => 'btn btn-primary'  %>
+        <% end %>
+
+      </dl>
+    </section>
+
+    <section id="user-favorite-langs">
+      <h3>Favorite Languages:</h3>
+
+      <p>Select your favorite languages:</p>
+
+      <%= form_for @user do |f| %>
+
+        <%= hidden_field_tag "user[favorite_languages][]" %>
+        <% Repo.all_languages.each do |language| %>
+          <label class="checkbox">
+            <%= f.check_box :favorite_languages, { multiple: true }, language, nil %>
+            <%= language %>
+          </label>
+        <% end %>
+
+        <p>
+          <%= button_tag "Save", :class => "btn btn-primary" %>
+        </p>
+
+      <% end %>
+    </section>
+  <% end %>
+
+</div>
+
+<div class="span2 well">
+  <% if current_user.blank? %>
+
+    Are you <%= @user.github %>?<br />
+    <span class="active"><%= link_to 'Login', new_user_registration_path %></span>
+    to edit your account
+
+  <% elsif current_user == @user %>
+    <%= link_to "Edit my account", edit_user_path(@user), :class => 'btn btn-primary', :style => 'margin-bottom: 5px' %>
+
+    <%= link_to user_path(@user), method: "delete", confirm: "#{t("web-app-theme.confirm", :default => "Are you sure?")}", class:  'btn btn-danger' do %>
+      <i class="icon-trash icon-white"></i> Delete my account
+    <% end %>
+
+  <% else %>
+    This isn't your account, jump to <%= link_to current_user.github, current_user %>
+  <% end %>
+</div>

@@ -3,7 +3,8 @@ class DocComment < ActiveRecord::Base
   belongs_to :doc_class, counter_cache: true
 
   validates :comment, uniqueness: {scope: [:doc_method_id, :doc_class_id]}
-  include WhereOrCreate
+
+
 
   def doc_method?
     doc_method_id.present?

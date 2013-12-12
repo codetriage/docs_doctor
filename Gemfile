@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
 
-# Use postgresql as the database for Active Record
-gem 'pg'
+gem 'q', path: '/Users/schneems/documents/projects/q'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc1'
@@ -22,7 +21,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+# gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.0.1'
@@ -32,8 +31,7 @@ gem 'git_hub_bub'
 gem 'pg'
 # gem 'ar_pg_array'
 gem 'resque'
-gem 'resque_def'
-# gem 'sextant'
+
 gem 'unicorn'
 gem 'omniauth-github'
 gem 'mail_view',          '~> 1.0.2'
@@ -43,6 +41,8 @@ gem 'dalli'
 gem 'wicked'
 gem 'rails_autolink'
 gem 'bluecloth'
+gem 'rack-timeout'
+
 
 gem 'puma'
 
@@ -54,9 +54,7 @@ group :development do
   gem 'quiet_assets'
 end
 
-gem 'git_hub_bub'
-
-gem 'devise'
+gem 'devise',                  "~> 3.2.2"
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
@@ -78,5 +76,5 @@ end
 
 
 gem 'rdoc', '~>4.0.1'
-
+gem 'yard'
 gem 'maildown'

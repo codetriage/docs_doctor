@@ -4,52 +4,32 @@ module DocsDoctor
       class Rdoc < ::DocsDoctor::Parser
         attr_accessor :files, :base_path
 
-        def initialize(base = nil)
-          @classes ||=[]
-          if @base_path = base
-            process_base!(base)
-            add_files(base)
-          end
-        end
-
-        # "foo/"   => expands to full directory
-        # "foo"    => expands to full directory
-        # "foo/*"  => glob provided, use explicit input
-        # "foo.rb" => exact file provided use explicit input
-        def process_base!(base)
-          return base if base.match(/\.rb$/)
-          return base if base.include?("*")
-          base << "/" unless base.match(/\/$/)
-          base << "**/*.rb"
-          base
-        end
-
-        def add_files(*files)
-          self.files ||= []
-          self.files.concat Dir.glob(files)
-          files
-        end
-        alias :add_file :add_files
-
-
-        def classes
-          if @classes.empty?
-            process
-            @classes
-          else
-            @classes
-          end
-        end
-
         def store(repo)
           classes.each do |klass|
-            doc_file   = repo.doc_files.where_or_create(name: klass.top_level.name, path: relative_path(klass.top_level.relative_name))
+            doc_file  = repo.doc_files.where(
+                          name: klass.top_level.name,
+                          path: relative_path(klass.top_level.relative_name)
+                        ).first_or_create
             next unless doc_file
-            doc_class  = doc_file.doc_classes.where_or_create(name: klass.name, line: klass.line)
-            doc_class.doc_comments.create(comment: klass.comment.text) if klass.comment.respond_to?(:text) && klass.comment.text.present?
+
+            doc_class = doc_file.doc_classes.where(
+                            name: klass.name,
+                            line: klass.line
+                          ).first_or_create
+
+            if klass.comment.respond_to?(:text) && klass.comment.text.present?
+              doc_class.doc_comments.where(comment: klass.comment.text).first_or_create
+            end
+
             klass.method_list.each do |method|
-              doc_method = doc_class.doc_methods.where_or_create(name: method.name, line: method.line)
-              doc_method.doc_comments.create(comment: method.comment.text) if method.comment.respond_to?(:text) && method.comment.text.present?
+              doc_method  = doc_class.doc_methods.where(
+                              name: method.name,
+                              line: method.line
+                            ).first_or_create
+
+              if klass.comment.respond_to?(:text) && klass.comment.text.present?
+                doc_method.doc_comments.where(comment: method.comment.text).first_or_create
+              end
             end
           end
         end

@@ -1,0 +1,20 @@
+<%= render 'layouts/head' %>
+  <% unless user_signed_in? %>
+    <!-- jumbotron -->
+    <div class="jumbotron">
+      <h1>Good Programmers Read Docs, Great Programmers Write Docs</h1>
+      <p class="lead">Sign up to receive documented method or class in your inbox every day from your favorite GitHub repos. If you're really pro, recieve un-documented methods or classes and super charge your commit history.</p>
+      <a class="btn btn-large btn-success" href="<%= new_user_registration_path %>">Sign up today</a>
+    </div>
+  <% end -%>
+
+  <div class="jumbotron">
+    <h2></h2>
+    <p class="lead"><%= number_with_delimiter(User.count, delimiter: ',') %> developers and working on <%= Repo.count %> open source repos</p>
+  </div>
+
+  <!-- yield -->
+  <div class="row marketing">
+    <%= yield %>
+  </div>
+<%= render 'layouts/footer' %>

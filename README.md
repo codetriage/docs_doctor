@@ -28,21 +28,34 @@ Clone the repo then run:
 $ bundle install
 ```
 
+## Import from Local rails/rails
 
+```
+files = ["/Users/schneems/documents/projects/rails/actionmailer/lib/action_mailer/base.rb"]
+YARD.parse(files)
+YARD::Registry
+```
 
-DocProj has many DocFiles
-DocFile has many DocClass(es)
-DocClass has many DocMethods
+```
+repo    = Repo.where(full_name: "schneems/threaded_in_memory_queue").first_or_create
+files   = '/Users/schneems/documents/projects/threaded_in_memory_queue/**/*.rb'
+parser  = DocsDoctor::Parsers::Ruby::Yard.new(files)
+parser.process
+parser.store(repo)
+```
 
-DocMethod has many DocComments
-DocClass has many DocComments
+```
+repo    = Repo.where(full_name: "rails/rails").first_or_create
+files   = '/Users/schneems/documents/projects/rails/**/*.rb'
+parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
+parser.process
+parser.store(self)
 
+```
 
-## Scratch
-
-
+```
 reload!
-repo    = Repo.where_or_create(full_name: "schneems/threaded_in_memory_queue")
+repo    = Repo.where(full_name: "schneems/threaded_in_memory_queue").first_or_create
 fetcher = GithubFetcher.new(repo.full_name)
 parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
 parser.process
@@ -50,13 +63,14 @@ parser.store(repo)
 puts DocFile.last.path
 
 
-repo    = Repo.where_or_create(full_name: "rails/rails")
-# files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo) # DocFile.destroy_all repo = Repo.last
+repo    = Repo.where(full_name: "rails/rails").first_or_create
+files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo)
+# DocFile.destroy_all repo = Repo.last
 doc  = repo.methods_missing_docs.first
 GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.doc_file.path, doc.line).to_github
 
 
-repo    = Repo.where_or_create(full_name: "rails/rails")
+repo    = Repo.where(full_name: "rails/rails").first_or_create
 files   = '/Users/schneems/documents/projects/rails/**/*.rb'
 parser = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
 parser.process
@@ -74,3 +88,19 @@ https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_i
 
 
 Grab all subscriptions, pull out one doc_method from each
+
+```
+
+
+
+
+
+
+
+```
+reload!
+fetcher = GithubFetcher.new(full_name)
+parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
+parser.process
+parser.store(Repo.where("full_name" => full_name).first)
+```

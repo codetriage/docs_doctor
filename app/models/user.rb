@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   validates_uniqueness_of :email, allow_blank: true, :if => :email_changed?
   validates_length_of     :password, within: 8..128
@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   has_many :doc_assignments, through: :repo_subscriptions
   has_many :repos, through: :repo_subscriptions
 
-  scope :public, where("private is not true")
+  scope :is_public, where("private is not true")
 
   alias_attribute :token, :github_access_token
 
-  include ResqueDef
+  include Q::Methods
 
   def subscribe_docs!
     subscriptions = self.repo_subscriptions.ready_for_docs.order('RANDOM()')
@@ -26,10 +26,9 @@ class User < ActiveRecord::Base
       sub.unassigned_doc_methods.map { |doc| sub.assign_doc_method(doc); doc }
     end.compact
     return false if docs.blank?
-    # UserMailer.send_daily_method_doc_for(user: self, docs: docs).deliver
+    UserMailer.daily_docs(user: self, write_docs: docs).deliver
     docs
   end
-
 
   def assign_method_doc(doc)
     return if doc.blank?
@@ -41,7 +40,7 @@ class User < ActiveRecord::Base
     doc
   end
 
-  resque_def(:background_subscribe_docs) do |id|
+  queue(:subscribe_docs) do |id|
     User.find(id).subscribe_docs!
   end
 
@@ -102,7 +101,7 @@ class User < ActiveRecord::Base
     params = {
       :github              => auth.info.nickname,
       :github_access_token => token,
-      :avatar_url => auth.extra.raw_info.avatar_url
+      :avatar_url          => auth.extra.raw_info.avatar_url
     }
 
     if user

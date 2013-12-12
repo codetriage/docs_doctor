@@ -1,37 +1,38 @@
 class Repo < ActiveRecord::Base
-  include ResqueDef
+  include Q::Methods
 
   #validate :github_url_exists, :on => :create
   validate :name, uniqueness: {scope: :user_name, case_sensitive: false }
 
-  after_create :populate_issues!, :update_repo_info!
+  after_create ->(repo) { Repo.queue.update_repo_info(repo.id) },
+               ->(repo) { Repo.queue.populate_docs(repo.id)    }
 
   before_validation :downcase_name, :strip_whitespaces, :split_from_full_name, :set_full_name
 
   validates :name, :user_name, :presence => true
   validates :name, :uniqueness => {:scope => :user_name}
 
-  has_many :repo_subscriptions
+  has_many :repo_subscriptions, dependent: :destroy
   has_many :users, :through => :repo_subscriptions
 
   has_many :subscribers, through: :repo_subscriptions, source: :user
-  has_many :doc_files, dependent: :destroy
-  has_many :doc_classes,  through: :doc_files
-  has_many :doc_methods,  through: :doc_classes
-  has_many :doc_comments, through: :doc_methods
+  has_many :doc_classes
+  has_many :doc_methods
   alias_attribute :exclude, :excluded
 
-  include WhereOrCreate
-
   def process!
-    fetcher = GithubFetcher.new(self.full_name)
+    fetcher = GithubFetcher.new(full_name)
     parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
     parser.process
     parser.store(self)
   end
 
-  resque_def(:background_process) do |id|
+  queue(:populate_docs) do |id|
     Repo.find(id).process!
+  end
+
+  queue(:update_repo_info) do |id|
+    Repo.find(id).update_from_github
   end
 
   def methods_missing_docs
@@ -104,10 +105,6 @@ class Repo < ActiveRecord::Base
     self.user_name = self.user_name.try :downcase
   end
 
-  def self.order_by_issue_count
-    self.order("issues_count DESC")
-  end
-
   #def github_url_exists
     #return true if Rails.env.test? ## TODO fixme with propper stubs, perhaps factories
     #response = GitHubBub.get(api_issues_path, page: 1, sort: 'comments', direction: 'desc')
@@ -138,10 +135,6 @@ class Repo < ActiveRecord::Base
 
   def username_repo
     "#{user_name}/#{name}"
-  end
-
-  def populate_issues!
-    #background_populate_issues(self.id)
   end
 
   def self.queue_populate_open_issues!
@@ -190,10 +183,6 @@ class Repo < ActiveRecord::Base
 
   def repo_path
     File.join 'repos', path
-  end
-
-  def update_repo_info!
-    #background_update_repo_info(self.id)
   end
 end
 

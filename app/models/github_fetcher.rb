@@ -28,10 +28,3 @@ class GithubFetcher
     @repo_json ||= ::GitHubBub.get(repo_path).json_body
   end
 end
-
-
-# repo   = Repo.where_or_create(full_name: "rails/rails")
-# files  = '/Users/schneems/documents/projects/rails/**/*.rb'
-# parser = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
-# parser.process
-# parser.store(repo)

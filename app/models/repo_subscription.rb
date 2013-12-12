@@ -1,6 +1,4 @@
 class RepoSubscription < ActiveRecord::Base
-  include ResqueDef
-
   validates :repo_id, :uniqueness => {:scope => :user_id}
 
   belongs_to :repo
@@ -40,4 +38,3 @@ class RepoSubscription < ActiveRecord::Base
     DocMethod.where(id: doc_assignments.map(&:doc_method_id))
   end
 end
-
