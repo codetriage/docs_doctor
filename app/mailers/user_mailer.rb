@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "DocsDoctor <noreply@docsdoctor.org>"
+
 
   def daily_docs(options = {})
     @user       = options[:user]
