@@ -21,23 +21,8 @@ class User < ActiveRecord::Base
   include Q::Methods
 
   def subscribe_docs!
-    subscriptions = self.repo_subscriptions.ready_for_docs.order('RANDOM()')
-    docs          = subscriptions.flat_map do |sub|
-      sub.unassigned_doc_methods.map { |doc| sub.assign_doc_method(doc); doc }
-    end.compact
-    return false if docs.blank?
-    UserMailer.daily_docs(user: self, write_docs: docs).deliver
-    docs
-  end
-
-  def assign_method_doc(doc)
-    return if doc.blank?
-    # ActiveRecord::Base.transaction do
-      self.doc_assignments.create!(doc_method_id: doc.id)
-      self.update_attributes(last_sent_at: Time.now)
-    # end
-    assigned_doc_method_ids << doc.id
-    doc
+    subscriptions = self.repo_subscriptions.order('RANDOM()').load
+    DocMailerMaker.new(self, subscriptions) {|sub| sub.ready_for_next? }.deliver
   end
 
   queue(:subscribe_docs) do |id|

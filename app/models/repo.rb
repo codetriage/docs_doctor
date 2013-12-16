@@ -16,13 +16,13 @@ class Repo < ActiveRecord::Base
   has_many :users, :through => :repo_subscriptions
 
   has_many :subscribers, through: :repo_subscriptions, source: :user
-  has_many :doc_classes
-  has_many :doc_methods
+  has_many :doc_classes, dependent: :destroy
+  has_many :doc_methods, dependent: :destroy
   alias_attribute :exclude, :excluded
 
   def process!
     fetcher = GithubFetcher.new(full_name)
-    parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
+    parser  = DocsDoctor::Parsers::Ruby::Yard.new(fetcher.clone)
     parser.process
     parser.store(self)
   end
@@ -37,6 +37,10 @@ class Repo < ActiveRecord::Base
 
   def methods_missing_docs
     doc_methods.where(doc_methods: {doc_comments_count: 0})
+  end
+
+  def methods_with_docs
+    doc_methods.where("doc_comments_count > 0")
   end
 
   def classes_missing_docs

@@ -27,9 +27,16 @@ class ReposController < RepoBasedController
   end
 
   def show
-    @repo        = Repo.where(full_name: params[:full_name]).first!
-    @repo_sub    = current_user.repo_subscriptions.where(id: @repo.id).first if current_user
-    @subscribers = @repo.subscribers.is_public.limit(27)
+    @repo          = Repo.where(full_name: params[:full_name]).first
+
+    if @repo
+      @docs        = @repo.doc_methods.order("created_at DESC").page(params[:page]).per_page(params[:per_page]||20)
+      @repo_sub    = current_user.repo_subscriptions.where(repo_id: @repo.id).first if current_user
+      @subscribers = @repo.subscribers.is_public.limit(27)
+    else
+      user_name, name = params[:full_name].split('/')
+      redirect_to new_repo_path(user_name: user_name, name: name), notice: "#{params[:full_name]} is not yet added, add it below"
+    end
   end
 
   def create

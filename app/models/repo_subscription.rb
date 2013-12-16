@@ -20,18 +20,23 @@ class RepoSubscription < ActiveRecord::Base
     !ready_for_next?
   end
 
-  def unassigned_doc_methods(limit = self.email_limit)
-    repo.methods_missing_docs.where("doc_methods.id not in (?)", self.doc_methods.map(&:id) + [-1]).order("random()").limit(limit)
+  def pre_assigned_doc_method_ids
+    self.doc_methods.map(&:id) + [-1]
   end
 
-  def assign_doc_method(doc)
-    return if doc.blank?
-    return doc if self.doc_assignments.where(doc_method_id: doc.id).first
-    ActiveRecord::Base.transaction do
-      self.doc_assignments.create!(doc_method_id: doc.id)
-      self.update_attributes(last_sent_at: Time.now)
-    end
-    doc
+  def unassigned_read_doc_methods(limit = self.email_limit)
+    repo.methods_with_docs.
+         where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
+         order("random()").
+         limit(limit)
+  end
+
+  def unassigned_write_doc_methods(limit = self.email_limit)
+    doc_method_ids = self.doc_methods.map(&:id) + [-1]
+    repo.methods_missing_docs.
+         where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
+         order("random()").
+         limit(limit)
   end
 
   def doc_methods

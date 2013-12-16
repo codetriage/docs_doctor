@@ -17,23 +17,29 @@ module DocsDoctor
         # YARD::CodeObjects::ModuleObject
         # YARD::CodeObjects::ClassObject
         # YARD::CodeObjects::ConstantObject
-        #
-        # YARD::CodeObjects::MethodObject
-        # YARD::CodeObjects::MethodObject
-        # YARD::CodeObjects::MethodObject
-        # YARD::CodeObjects::MethodObject
         # YARD::CodeObjects::MethodObject
         def store_entity(obj, repo)
+          docstring = obj.docstring
+          name      = obj.name
+          path      = obj.path
+          line      = obj.line
+          file      = obj.file
+
+          if name.blank? || path.blank? || line.blank? || file.blank?
+            puts "Could not store YARD object, missing one or more properties: #{obj.inspect}"
+            return false
+          end
+
           object = case obj
           when YARD::CodeObjects::ModuleObject, YARD::CodeObjects::ClassObject
             repo.doc_classes.where(
-                name: obj.name,
-                path: obj.path
+                name: name,
+                path: path
               ).first_or_create
           when YARD::CodeObjects::MethodObject
             repo.doc_methods.where(
-                name: obj.name,
-                path: obj.path
+                name: name,
+                path: path
               ).first_or_create
           when YARD::CodeObjects::ConstantObject
             return true
@@ -41,10 +47,10 @@ module DocsDoctor
             puts "Unknown YARD object: #{obj.inspect}"
             return true
           end
-          object.doc_comments.where(comment: obj.docstring).first_or_create
-          object.update_attributes(line: obj.line, file: obj.file)
-        end
 
+          object.doc_comments.where(comment: docstring).first_or_create if docstring.present?
+          object.update_attributes(line: line, file: file)
+        end
 
         def process
           require 'yard'

@@ -34,10 +34,6 @@ module DocsDoctor
           end
         end
 
-        def root_path
-          Pathname.new(base_path).expand_path
-        end
-
         # convert "../rails/foo.rb" => /foo".rb
         def relative_path(path)
           path_array = path.split('/').select {|x| x != ".."}
