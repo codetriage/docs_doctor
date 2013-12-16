@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 
-gem 'q', path: '/Users/schneems/documents/projects/q'
+gem 'q'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
 
