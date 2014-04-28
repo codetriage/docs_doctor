@@ -19,6 +19,9 @@ DocsDoctorWeb::Application.routes.draw do
   resources   :issue_assignments
 
 
+  mount Resque::Server.new, :at => "/docsdoctor/resque" if Q.env.resque?
+
+
   # format: false gives us rails 3.0 style routes so angular/angular.js is interpreted as
   # user_name: "angular", name: "angular.js" instead of using the "js" as a format
   scope format: false do

@@ -12,8 +12,6 @@ Dir["#{__dir__}/docs_doctor/loader/*.rb"].each do |file|
   require file
 end
 
-require 'docs_doctor/parsers/ruby/rdoc'
-
 
 # DocProj has many DocFiles
 # DocFile has many DocClass(es)
