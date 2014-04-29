@@ -52,9 +52,11 @@ module DocsDoctor
           object.update_attributes(line: line, file: file)
         end
 
+
+        # http://rubydoc.org/gems/yard/YARD/Parser/SourceParser#parse-class_method
         def process
           require 'yard'
-          YARD.parse(files)
+          YARD.parse(files, ["(^|\/)test\/.*" , "(^|\/)spec\/.*"])
           @yard_objects = YARD::Registry.all
         end
       end
