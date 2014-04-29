@@ -30,38 +30,18 @@ $ bundle install
 
 ## Import from Local rails/rails
 
-```
-files = ["/Users/schneems/documents/projects/rails/actionmailer/lib/action_mailer/base.rb"]
-YARD.parse(files)
-YARD::Registry
-```
-
-```
-repo    = Repo.where(full_name: "schneems/threaded_in_memory_queue").first_or_create
-files   = '/Users/schneems/documents/projects/threaded_in_memory_queue/**/*.rb'
-parser  = DocsDoctor::Parsers::Ruby::Yard.new(files)
-parser.process
-parser.store(repo)
-```
-
-```
-repo    = Repo.where(full_name: "rails/rails").first_or_create
-files   = '/Users/schneems/documents/projects/rails/**/*.rb'
-parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
-parser.process
-parser.store(self)
-
-```
 
 ```
 reload!
-repo    = Repo.where(full_name: "schneems/threaded_in_memory_queue").first_or_create
+repo    = Repo.where(full_name: "schneems/threaded").first_or_create
 fetcher = GithubFetcher.new(repo.full_name)
-parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
+parser  = DocsDoctor::Parsers::Ruby::Yard.new(fetcher.clone)
 parser.process
 parser.store(repo)
 puts DocFile.last.path
+```
 
+```
 
 repo    = Repo.where(full_name: "rails/rails").first_or_create
 files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo)
@@ -89,13 +69,6 @@ https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_i
 
 Grab all subscriptions, pull out one doc_method from each
 
-```
-
-
-
-
-
-
 
 ```
 reload!
@@ -103,4 +76,19 @@ fetcher = GithubFetcher.new(full_name)
 parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
 parser.process
 parser.store(Repo.where("full_name" => full_name).first)
+```
+
+
+
+# Current Status
+
+- Debug emails not being sent
+
+```
+reload!
+repo    = Repo.where(full_name: "schneems/threaded").first_or_create
+fetcher = GithubFetcher.new(repo.full_name)
+parser  = DocsDoctor::Parsers::Ruby::Yard.new(fetcher.clone)
+parser.process
+parser.yard_objects.select {|o| o.is_a?(YARD::CodeObjects::MethodObject) }
 ```
