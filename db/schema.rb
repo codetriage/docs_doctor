@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131212023909) do
+ActiveRecord::Schema.define(version: 20140429011012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,9 +60,10 @@ ActiveRecord::Schema.define(version: 20131212023909) do
     t.integer  "line"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "doc_comments_count", default: 0, null: false
+    t.integer  "doc_comments_count", default: 0,     null: false
     t.string   "path"
     t.string   "file"
+    t.boolean  "skip_write",         default: false
   end
 
   add_index "doc_methods", ["repo_id"], name: "index_doc_methods_on_repo_id", using: :btree

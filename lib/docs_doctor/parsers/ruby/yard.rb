@@ -3,6 +3,8 @@ module DocsDoctor
     module Ruby
       class Yard < ::DocsDoctor::Parser
 
+        attr_reader :yard_objects
+
         def initialize(base = nil)
           @yard_objects = []
           super
@@ -37,9 +39,15 @@ module DocsDoctor
                 path: path
               ).first_or_create
           when YARD::CodeObjects::MethodObject
+            # attr_writer, attr_reader don't need docs
+            # document original method instead
+            # don't document initialize
+            skip_write  = obj.is_attribute? || obj.is_alias? || (obj.respond_to?(:is_constructor?) && obj.is_constructor?)
+
             repo.doc_methods.where(
                 name: name,
-                path: path
+                path: path,
+                skip_write: skip_write
               ).first_or_create
           when YARD::CodeObjects::ConstantObject
             return true

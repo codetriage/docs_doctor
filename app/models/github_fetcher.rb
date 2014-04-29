@@ -6,9 +6,7 @@ class GithubFetcher
   end
 
   def clone
-    Dir.chdir(dir) do
-      `git clone #{clone_url}`
-    end
+    `cd #{dir} && git clone #{clone_url}`
     return dir
   end
 
