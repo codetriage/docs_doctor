@@ -13,7 +13,7 @@ class RepoSubscription < ActiveRecord::Base
 
   def ready_for_next?
     return true if last_sent_at.blank?
-    last_sent_at < 24.hours.ago
+    last_sent_at < 8.hours.ago
   end
 
   def not_ready_for_next?
