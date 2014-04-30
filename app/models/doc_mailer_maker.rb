@@ -35,7 +35,6 @@ class DocMailerMaker
       end
 
       if sub.write?
-        next if sub.skip_write
         sub.unassigned_write_doc_methods.each do |doc|
           @write_docs << assign_doc_to_subscription(doc, sub)
         end

@@ -35,6 +35,7 @@ class RepoSubscription < ActiveRecord::Base
     doc_method_ids = self.doc_methods.map(&:id) + [-1]
     repo.methods_missing_docs.
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
+         where(skip_write: false).
          order("random()").
          limit(limit)
   end
