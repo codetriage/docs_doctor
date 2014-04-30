@@ -56,8 +56,8 @@ module DocsDoctor
             return true
           end
 
-          object.doc_comments.where(comment: docstring).first_or_create if docstring.present?
           object.update_attributes(line: line, file: file)
+          object.doc_comments.where(comment: docstring).first_or_create if docstring.present?
         end
 
 
