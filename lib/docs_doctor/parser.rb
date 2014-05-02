@@ -15,6 +15,7 @@ module DocsDoctor
     # "foo/*"  => glob provided, use explicit input
     # "foo.rb" => exact file provided use explicit input
     def process_base!(base)
+      base = base.to_s
       return base if base.match(/\.rb$/)
       return base if base.include?("*")
       base << "/" unless base.match(/\/$/)

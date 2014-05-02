@@ -11,5 +11,15 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
+  def fixture_path(name = "")
+    path = Pathname.new(File.expand_path("../fixtures", __FILE__))
+    path.join(name)
+  end
+
   # Add more helper methods to be used by all tests here...
 end
+
+require 'parsers/yard_test'
+require 'mocha/setup'
+
+Q.queue_config.inline = true

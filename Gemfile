@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'q'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.1'
+gem 'rails', '4.1.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc1'
@@ -52,6 +52,10 @@ gem 'rrrretry'
 group :development do
   gem 'foreman'
   gem 'quiet_assets'
+end
+
+group :test do
+  gem 'mocha', require: false
 end
 
 gem 'devise',                  "~> 3.2.2"

@@ -86,9 +86,12 @@ parser.store(Repo.where("full_name" => full_name).first)
 
 ```
 reload!
-repo    = Repo.where(full_name: "schneems/threaded").first_or_create
+repo    = Repo.where(full_name: "schneems/rrrretry").first_or_create
 fetcher = GithubFetcher.new(repo.full_name)
 parser  = DocsDoctor::Parsers::Ruby::Yard.new(fetcher.clone)
 parser.process
+parser.store(repo)
+
+
 parser.yard_objects.select {|o| o.is_a?(YARD::CodeObjects::MethodObject) }
 ```

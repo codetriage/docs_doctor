@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :doc_assignments, through: :repo_subscriptions
   has_many :repos, through: :repo_subscriptions
 
-  scope :is_public, where("private is not true")
+  scope :is_public, -> { where("private is not true") }
 
   alias_attribute :token, :github_access_token
 

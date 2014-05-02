@@ -6,6 +6,14 @@ class DocMethod < ActiveRecord::Base
 
   include ActiveRecord::CounterCache
 
+  def self.missing_docs
+    where(doc_methods: {doc_comments_count: 0})
+  end
+
+  def self.with_docs
+    where("doc_comments_count > 0")
+  end
+
   def file
     return nil if read_attribute(:file).blank?
     absolute, match, relative = read_attribute(:file).partition(/(\/|^)#{repo.name}\//)

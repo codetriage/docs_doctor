@@ -2,6 +2,9 @@ module DocsDoctor
   module Parsers
     module Ruby
       class Yard < ::DocsDoctor::Parser
+        # we don't want any files in /test or /spec unless it's
+        # for testing this codebase
+        DEFAULT_EXCLUDE = ["(^|\/)test\/(?!fixtures)" , "(^|\/)spec\/(?!fixtures)"]
 
         attr_reader :yard_objects
 
@@ -62,9 +65,9 @@ module DocsDoctor
 
 
         # http://rubydoc.org/gems/yard/YARD/Parser/SourceParser#parse-class_method
-        def process
+        def process(exclude = DEFAULT_EXCLUDE)
           require 'yard'
-          YARD.parse(files, ["(^|\/)test\/.*" , "(^|\/)spec\/.*"])
+          YARD.parse(files, exclude)
           @yard_objects = YARD::Registry.all
         end
       end

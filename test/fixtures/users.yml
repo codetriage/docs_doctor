@@ -1,0 +1,7 @@
+mockstar:
+  id: 1
+  email: mockstar@example.com
+  encrypted_password: $2a$10$TeiE6ilu6whHHf0bT7GkweHuwpIxsnneUnueqllj4qn5I42Eys3jO
+  reset_password_token:
+  reset_password_sent_at:
+  name: Mock Star

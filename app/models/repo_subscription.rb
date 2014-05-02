@@ -5,7 +5,7 @@ class RepoSubscription < ActiveRecord::Base
   belongs_to :user
   has_many   :doc_assignments
 
-  validates :email_limit, numericality: {less_than: 21, greater_than: 0}
+  validates :email_limit, numericality: { less_than: 21, greater_than: 0 }
 
   def self.ready_for_docs
     where("last_sent_at is null or last_sent_at < ?", 23.hours.ago)
