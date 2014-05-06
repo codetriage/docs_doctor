@@ -6,7 +6,6 @@ class UserMailer < ActionMailer::Base
     @user       = options[:user]
     @write_docs = options[:write_docs]
     @read_docs  = options[:read_docs]
-    puts options.inspect
     count       = (@write_docs.try(:count) || 0) + (@read_docs.try(:count) || 0)
     subject     = "Check out #{count} Open Source #{"Doc".pluralize(count)}"
     mail(to: @user.email, subject: subject)

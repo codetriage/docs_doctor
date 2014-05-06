@@ -39,8 +39,10 @@ module DocsDoctor
           when YARD::CodeObjects::ModuleObject, YARD::CodeObjects::ClassObject
             repo.doc_classes.where(
                 name: name,
-                path: path
-              ).first_or_create
+                path: path,
+                line: line,
+                file: file
+            ).first_or_create
           when YARD::CodeObjects::MethodObject
             # attr_writer, attr_reader don't need docs
             # document original method instead
@@ -50,7 +52,9 @@ module DocsDoctor
             repo.doc_methods.where(
                 name: name,
                 path: path,
-                skip_write: skip_write
+                line: line,
+                file: file,
+                skip_write: skip_write,
               ).first_or_create
           when YARD::CodeObjects::ConstantObject
             return true
@@ -59,7 +63,6 @@ module DocsDoctor
             return true
           end
 
-          object.update_attributes(line: line, file: file)
           object.doc_comments.where(comment: docstring).first_or_create if docstring.present?
         end
 

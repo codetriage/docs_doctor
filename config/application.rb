@@ -21,5 +21,7 @@ module DocsDoctorWeb
     # config.i18n.default_locale = :de
 
     config.autoload_paths += %W(lib lib/docs_doctor lib/docs_doctor/**)
+
+    config.action_mailer.default_url_options = { host: "www.docsdoctor.org" }
   end
 end

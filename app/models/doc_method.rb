@@ -2,7 +2,7 @@ class DocMethod < ActiveRecord::Base
   belongs_to :repo
   has_many   :doc_comments, dependent: :destroy
 
-  validates :file, :name, :path, presence: true
+  validates :raw_file, :name, :path, presence: true
 
   include ActiveRecord::CounterCache
 
@@ -14,9 +14,13 @@ class DocMethod < ActiveRecord::Base
     where("doc_comments_count > 0")
   end
 
+  def raw_file
+    read_attribute(:file)
+  end
+
   def file
-    return nil if read_attribute(:file).blank?
-    absolute, match, relative = read_attribute(:file).partition(/(\/|^)#{repo.name}\//)
+    return nil if raw_file.blank?
+    absolute, match, relative = raw_file.partition(/(\/|^)#{repo.name}\//)
     return relative
   end
 end
