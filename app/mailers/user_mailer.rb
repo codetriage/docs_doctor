@@ -16,8 +16,13 @@ class UserMailer < ActionMailer::Base
     # Pull data from existing fixtures
     def daily_docs
       user       = User.last
-      write_docs = DocMethod.order("RANDOM()").first(rand(0..8))
-      read_docs  = DocMethod.order("RANDOM()").first(rand(0..8))
+
+
+      write_docs = DocMethod.order("RANDOM()").missing_docs.first(rand(0..8))
+      read_docs  = DocMethod.order("RANDOM()").with_docs.first(rand(0..8))
+
+      write_docs = DocMethod.order("RANDOM()").first(rand(0..8)) if write_docs.blank?
+      read_docs  = DocMethod.order("RANDOM()").first(rand(0..8)) if read_docs.blank?
 
       ::UserMailer.daily_docs(user: user, write_docs: write_docs, read_docs: read_docs)
     end

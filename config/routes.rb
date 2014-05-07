@@ -11,6 +11,7 @@ DocsDoctorWeb::Application.routes.draw do
 
   root        :to => "pages#index"
 
+  resources   :doc_methods
   resources   :users
   get         "/users/unsubscribe/:account_delete_token" => "users#token_delete", as: :token_delete_user
   delete      "/users/unsubscribe/:account_delete_token" => "users#token_destroy"

@@ -1,0 +1,47 @@
+<h2><%= link_to @doc.path, GithubUrlFromBasePathLine.new(@doc.repo.github_url, @doc.file, @doc.line).to_github %></h2>
+<p><%= link_to @doc.repo.full_name, @doc.repo.github_url %></p>
+
+<h3>Docs:</h3>
+<p>
+  <% if comment = @doc.doc_comments.first  %>
+    <%= comment.comment %>
+  <% else %>
+    No docs
+  <% end %>
+</p>
+<p>
+  <%= link_to "Source", GithubUrlFromBasePathLine.new(@doc.repo.github_url, @doc.file, @doc.line).to_github %> |
+  <%= link_to "Google", "https://www.google.com/search?q=#{URI.encode(@doc.path)}" %> |
+  <%= link_to "Stack overflow", "http://stackoverflow.com/search?q=#{URI.encode(@doc.path)}" %>
+</p>
+
+<h3>Edit</h3>
+<pre>
+$ git clone git@github.com:<%= @doc.repo.full_name %>.git
+$ cd <%= @doc.repo.name %>
+$ open <%= @doc.file %>
+# edit away!</pre>
+
+<h3>Contribute</h3>
+
+<%
+  username = current_user.present? ? current_user.github : "YOUR_NAME"
+  branch   = "#{username}/update-docs-#{@doc.path}-for-pr".gsub(/:|~|\^|\\|\.\./, "_") # http://stackoverflow.com/questions/3651860/which-characters-are-illegal-within-a-branch-name
+%>
+
+<pre>
+# Make a new branch
+$ git co -b <%= branch %>
+
+# Commit to git
+$ git add <%= @doc.file %>
+$ git commit -m "better docs for <%= @doc.path %>"
+
+# Open pull request
+$ gem install hub # on a mac you can `brew install hub`
+$ hub fork
+$ git push <%= username %> <%= branch %>
+$ hub pull-request
+
+# Celebrate!
+</pre>

@@ -4,7 +4,7 @@ Hi @<%= @user.github %>,
 ## Write Docs
 
 <% @write_docs.sort_by {|d| d.repo.full_name }.each do |doc| %>
-**<%= doc.repo.full_name %>**: [<%= doc.path %>](<%= GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.file, doc.line).to_github %>)
+**<%= doc.repo.full_name %>**: [<%= doc.path %>](<%= doc_method_url doc %>)
 
 <% end %>
 <% end %>
@@ -15,7 +15,11 @@ Hi @<%= @user.github %>,
 ## Read Docs
 
 <% @read_docs.sort_by {|d| d.repo.full_name }.each do |doc| %>
-**<%= doc.repo.full_name %>**: [<%= doc.path %>](<%= GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.file, doc.line).to_github %>)
+**<%= doc.repo.full_name %>**: [<%= doc.path %>](<%= doc_method_url doc %>)
+
+<pre>
+<%= doc.doc_comments.first.try(:comment) %>
+</pre>
 
 <% end %>
 <% end %>

@@ -73,7 +73,7 @@
 <ul>
   <% @docs.each do |doc| %>
     <li>
-      <%= link_to doc.path, GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.file, doc.line).to_github %>
+      <%= link_to doc.path, doc %>
       <%= "(undocumented)" if doc.doc_comments.blank? %>
     </li>
   <% end %>
