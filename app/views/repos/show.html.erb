@@ -39,32 +39,34 @@
 
 <h2>Read more `<%= @repo.name %>` Docs</h2>
 
-<% if @repo_sub.blank? || @repo_sub.try(:read?).blank? %>
+<% if @repo_sub.try(:read?) %>
+    Currently receiving <%= @repo_sub.read_limit.to_i %> docs to read per day.
+    <%= form_for(@repo_sub, :html => {:class => 'form-inline'}) do |f| %>
+      <%= f.select :read_limit, (0..20) %>
+      <%= f.submit "Save", :class => 'btn btn-success' %>
+    <% end %>
+<% else %>
   <p>
     Want to get to know <%= @repo.name %> better? Sign up to receive one documented method or class in your inbox every day. It's an easy way to level up
   </p>
-	<%= button_to "I Want to Read: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, read: true}), :class => 'btn btn-primary btn-success' %>
-<% else %>
-  You are subscribed to read docs
-    <%= link_to repo_subscription_path(@repo_sub), :class => 'btn btn-danger', :method => :delete, :data => { :confirm => 'Are you sure?' } do %>
-    <i class="icon-remove icon-white"></i> Unsubscribe
-  <% end %>
+  <%= button_to "I Want to Read: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, read: true, read_limit: 3}), :class => 'btn btn-primary btn-success' %>
 <% end %>
 
 <hr />
 
 <h2>Write more `<%= @repo.name %>` Docs</h2>
 
-<% if @repo_sub.blank? || @repo_sub.try(:write?).blank?  %>
+<% if @repo_sub.try(:write?)  %>
+    Currently receiving <%= @repo_sub.write_limit.to_i %> docs to write per day.
+    <%= form_for(@repo_sub, :html => {:class => 'form-inline'}) do |f| %>
+      <%= f.select :write_limit, (0..20) %>
+      <%= f.submit "Save", :class => 'btn btn-success' %>
+    <% end %>
+<% else %>
   <p>
     Are you ready to give forwards, back, or sideways to <%= @repo.name %>. Sign up to receive an undocumented method or class in your inbox. Do some research, then go document it! Commits++
   </p>
-  <%= button_to "I Want to Write: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, write: true}), :class => 'btn btn-primary btn-success' %>
-<% else %>
-  You are subscribed to write docs
-    <%= link_to repo_subscription_path(@repo_sub), :class => 'btn btn-danger', :method => :delete, :data => { :confirm => 'Are you sure?' } do %>
-    <i class="icon-remove icon-white"></i> Unsubscribe
-  <% end %>
+  <%= button_to "I Want to Write: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, write: true, write_limit: 3}), :class => 'btn btn-primary btn-success' %>
 <% end %>
 
 <hr />

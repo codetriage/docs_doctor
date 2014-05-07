@@ -16,6 +16,8 @@ class UserTest < ActiveSupport::TestCase
     repo_sub.repo  = repo
     repo_sub.read  = true
     repo_sub.write = true
+    repo_sub.write_limit = 1
+    repo_sub.read_limit  = 1
     assert repo_sub.save, "Expected subscription to save, but did not: #{repo_sub.errors.inspect}"
 
     assert_difference("User.find(#{user.id}).doc_assignments.count", 1) do

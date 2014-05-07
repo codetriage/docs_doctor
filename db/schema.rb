@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140429011012) do
+ActiveRecord::Schema.define(version: 20140507134638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,8 @@ ActiveRecord::Schema.define(version: 20140429011012) do
     t.datetime "updated_at"
     t.boolean  "write",        default: false
     t.boolean  "read",         default: false
+    t.integer  "write_limit"
+    t.integer  "read_limit"
   end
 
   add_index "repo_subscriptions", ["repo_id"], name: "index_repo_subscriptions_on_repo_id", using: :btree

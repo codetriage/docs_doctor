@@ -24,14 +24,14 @@ class RepoSubscription < ActiveRecord::Base
     self.doc_methods.map(&:id) + [-1]
   end
 
-  def unassigned_read_doc_methods(limit = self.email_limit)
+  def unassigned_read_doc_methods(limit = self.read_limit)
     repo.methods_with_docs.
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
          order("random()").
          limit(limit)
   end
 
-  def unassigned_write_doc_methods(limit = self.email_limit)
+  def unassigned_write_doc_methods(limit = self.write_limit)
     doc_method_ids = self.doc_methods.map(&:id) + [-1]
     repo.methods_missing_docs.
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).

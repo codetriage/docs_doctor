@@ -1,5 +1,5 @@
 <h2><%= link_to @doc.path, GithubUrlFromBasePathLine.new(@doc.repo.github_url, @doc.file, @doc.line).to_github %></h2>
-<p><%= link_to @doc.repo.full_name, @doc.repo.github_url %></p>
+<p><%= link_to @doc.repo.full_name, @doc.repo %></p>
 
 <h3>Docs:</h3>
 <p>
