@@ -95,3 +95,8 @@ parser.store(repo)
 
 parser.yard_objects.select {|o| o.is_a?(YARD::CodeObjects::MethodObject) }
 ```
+
+## TODO
+
+- Store commit so modifying files don't point to the wrong line (https://github.com/schneems/threaded/blob/master/lib/threaded.rb/#L44)
+- Fix class versus instance separator

@@ -1,4 +1,6 @@
 class RepoSubscription < ActiveRecord::Base
+  DEFAULT_READ_LIMIT  = 3
+  DEFAULT_WRITE_LIMIT = 3
   validates :repo_id, :uniqueness => {:scope => :user_id}
 
   belongs_to :repo
@@ -28,7 +30,7 @@ class RepoSubscription < ActiveRecord::Base
     repo.methods_with_docs.
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
          order("random()").
-         limit(limit)
+         limit(limit || DEFAULT_READ_LIMIT)
   end
 
   def unassigned_write_doc_methods(limit = self.write_limit)
@@ -37,7 +39,7 @@ class RepoSubscription < ActiveRecord::Base
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
          where(skip_write: false).
          order("random()").
-         limit(limit)
+         limit(limit || DEFAULT_WRITE_LIMIT)
   end
 
   def doc_methods
