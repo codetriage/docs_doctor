@@ -4,7 +4,8 @@
 <h3>Docs:</h3>
 <p>
   <% if comment = @doc.doc_comments.first  %>
-    <%= comment.comment %>
+
+    <pre><%= comment.comment %></pre>
   <% else %>
     No docs
   <% end %>
