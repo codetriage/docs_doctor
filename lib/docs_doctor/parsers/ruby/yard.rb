@@ -8,7 +8,7 @@ module DocsDoctor
 
         attr_reader :yard_objects
 
-        def initialize(base = nil)
+        def initialize(base)
           @yard_objects = []
           super
         end
@@ -53,15 +53,26 @@ module DocsDoctor
             return true
           end
 
-
           object.doc_comments.where(comment: obj.docstring).first_or_create if obj.docstring.present?
         end
 
-        # http://rubydoc.org/gems/yard/YARD/Parser/SourceParser#parse-class_method
         def process(exclude = DEFAULT_EXCLUDE)
           require 'yard'
-          YARD.parse(files, exclude)
+          yard             = YARD::CLI::Yardoc.new
+
+          # yard.files       = files
+          yard.excluded    = exclude # http://rubydoc.org/gems/yard/YARD/Parser/SourceParser#parse-class_method
+          yard.save_yardoc = false
+          yard.generate    = false
+          # yard.use_cache = false'
+
+          Dir.chdir(root_path) do
+            yard.run
+          end
+
           @yard_objects = YARD::Registry.all
+          YARD::Registry.delete_from_disk
+          YARD::Registry.clear
         end
       end
     end

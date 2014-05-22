@@ -2,12 +2,11 @@ module DocsDoctor
   class Parser
     attr_accessor :files, :base_path
 
-    def initialize(base = nil)
+    def initialize(base)
       @classes ||=[]
-      if @base_path = base
-        process_base!(base)
-        add_files(base)
-      end
+      @base_path = base
+      self.files = []
+      self.files << process_base!(base)
     end
 
     # "foo/"   => expands to full directory
@@ -30,18 +29,13 @@ module DocsDoctor
     end
     alias :add_file :add_files
 
-
-    def classes
-      if @classes.empty?
-        process
-        @classes
-      else
-        @classes
-      end
-    end
-
     def root_path
-      Pathname.new(base_path).expand_path
+      root_path = Pathname.new(base_path).expand_path
+      if root_path.to_s.match(/\.rb+$/)
+        root_path.dirname
+      else
+        root_path
+      end
     end
   end
 end
