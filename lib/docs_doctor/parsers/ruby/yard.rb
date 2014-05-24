@@ -24,36 +24,24 @@ module DocsDoctor
         # YARD::CodeObjects::ConstantObject
         # YARD::CodeObjects::MethodObject
         def store_entity(obj, repo)
-          options = {
-                name: obj.name,
-                path: obj.path,
-                line: obj.line,
-                file: obj.file,
-          }
-
-          if options.values.detect(&:blank?)
-            puts "Could not store YARD object, missing one or more properties: #{obj.inspect}: #{options.inspect}"
-            return false
-          end
-
-          object = case obj
-          when YARD::CodeObjects::ModuleObject, YARD::CodeObjects::ClassObject
-            repo.doc_classes.where(options).first_or_create
-          when YARD::CodeObjects::MethodObject
+          if obj.is_a? YARD::CodeObjects::MethodObject
             # attr_writer, attr_reader don't need docs
             # document original method instead
             # don't document initialize
-            skip_write  = obj.is_attribute? || obj.is_alias? || (obj.respond_to?(:is_constructor?) && obj.is_constructor?)
+            skip_write = obj.is_attribute? || obj.is_alias? || (obj.respond_to?(:is_constructor?) && obj.is_constructor?)
 
-            repo.doc_methods.where(options.merge(skip_write: skip_write)).first_or_create
-          when YARD::CodeObjects::ConstantObject
-            return true
+            method = repo.doc_methods.where(name: obj.name, path: obj.path).first_or_initialize
+            method.assign_attributes(line: obj.line, file: obj.file, skip_write: skip_write) # line and file will change, do not want to accidentally create duplicate methods
+            unless method.save
+              puts "Could not store YARD object, missing one or more properties: #{method.errors.inspect}"
+              return false
+            end
+
+            method.doc_comments.where(comment: obj.docstring).first_or_create if obj.docstring.present?
           else
-            puts "Unknown YARD object: #{obj.inspect}"
+            puts "Skipping storing non-method: #{obj.inspect}"
             return true
           end
-
-          object.doc_comments.where(comment: obj.docstring).first_or_create if obj.docstring.present?
         end
 
         def process(exclude = DEFAULT_EXCLUDE)

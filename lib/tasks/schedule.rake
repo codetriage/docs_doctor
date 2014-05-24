@@ -6,7 +6,15 @@ namespace :schedule do
     end
   end
 
-  desc "sends all users an undocumented method or class of a repo they are following"
+  desc "Mark methods as 'inactive'"
+  task do
+    DocMethod.where(active: true).where("updated_at < '#{48.hours.ago}'").find_each do |m|
+      m.active = false
+      m.save
+    end
+  end
+
+  desc "sends all users a method or class of a repo they are following"
   task user_send_doc: :environment do
     User.find_each do |user|
       User.queue.subscribe_docs(user.id)
