@@ -10,6 +10,10 @@ class DocMethod < ActiveRecord::Base
     where(doc_methods: {doc_comments_count: 0})
   end
 
+  def self.active
+    where(active: true)
+  end
+
   def self.with_docs
     where("doc_comments_count > 0")
   end
