@@ -7,7 +7,7 @@ namespace :schedule do
   end
 
   desc "Mark methods as 'inactive'"
-  task do
+  task :mark_inactive do
     DocMethod.where(active: true).where("updated_at < '#{48.hours.ago}'").find_each do |m|
       m.active = false
       m.save
