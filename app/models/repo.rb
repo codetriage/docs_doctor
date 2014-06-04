@@ -28,7 +28,11 @@ class Repo < ActiveRecord::Base
   end
 
   queue(:populate_docs) do |id|
-    Repo.find(id).process!
+    begin
+      Repo.find(id).process!
+    rescue Resque::TermException
+      queue.populate_docs(id)
+    end
   end
 
   queue(:update_repo_info) do |id|
