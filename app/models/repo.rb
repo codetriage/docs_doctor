@@ -193,4 +193,3 @@ class Repo < ActiveRecord::Base
     File.join 'repos', path
   end
 end
-

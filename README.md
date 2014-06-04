@@ -1,5 +1,7 @@
 # Docs Doctor
 
+[![Build Status](https://travis-ci.org/schneems/docs_doctor.svg?branch=master)](https://travis-ci.org/schneems/docs_doctor)
+
 ## Manifesto
 
 Having well documented methods and classes make it much easier for coders to become contributors. This lib is intended to help maintainers and contributors find missing or lacking docs and fix them.
