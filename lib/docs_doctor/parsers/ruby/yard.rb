@@ -1,16 +1,27 @@
 module DocsDoctor
   module Parsers
     module Ruby
-      class Yard < ::DocsDoctor::Parser
+      class Yard
         # we don't want any files in /test or /spec unless it's
         # for testing this codebase
         DEFAULT_EXCLUDE = ["(^|\/)test\/(?!fixtures)" , "(^|\/)spec\/(?!fixtures)"]
 
         attr_reader :yard_objects
+        attr_accessor :files, :base_path
 
         def initialize(base)
           @yard_objects = []
-          super
+          @classes ||=[]
+          @base_path = base
+        end
+
+        def root_path
+          root_path = Pathname.new(base_path).expand_path
+          if root_path.to_s.match(/\.rb+$/)
+            root_path.dirname
+          else
+            root_path
+          end
         end
 
         def store(repo)
