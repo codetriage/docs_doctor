@@ -33,7 +33,7 @@ $ bundle install
 ## Import from Local rails/rails
 
 
-```
+```ruby
 reload!
 repo    = Repo.where(full_name: "schneems/threaded").first_or_create
 fetcher = GithubFetcher.new(repo.full_name)
@@ -43,8 +43,7 @@ parser.store(repo)
 puts DocFile.last.path
 ```
 
-```
-
+```ruby
 repo    = Repo.where(full_name: "rails/rails").first_or_create
 files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo)
 # DocFile.destroy_all repo = Repo.last
@@ -60,7 +59,7 @@ parser.store(repo)
 
 # DocFile.destroy_all repo = Repo.last
 doc  = repo.methods_missing_docs.first
-
+```
 
 https://github.com/schneems/threaded_in_memory_queue/blob/master/threaded_in_memory_queue/test/threaded_in_memory_queue/master_test.rb/#L5
 
@@ -72,7 +71,7 @@ https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_i
 Grab all subscriptions, pull out one doc_method from each
 
 
-```
+```ruby
 reload!
 fetcher = GithubFetcher.new(full_name)
 parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(fetcher.clone)
@@ -86,7 +85,7 @@ parser.store(Repo.where("full_name" => full_name).first)
 
 - Debug emails not being sent
 
-```
+```ruby
 reload!
 repo    = Repo.where(full_name: "schneems/rrrretry").first_or_create
 fetcher = GithubFetcher.new(repo.full_name)
