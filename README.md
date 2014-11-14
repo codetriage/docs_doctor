@@ -1,6 +1,6 @@
 # Docs Doctor
 
-[![Build Status](https://travis-ci.org/schneems/docs_doctor.svg?branch=master)](https://travis-ci.org/schneems/docs_doctor)
+[![Build Status](https://travis-ci.org/codetriage/docs_doctor.svg?branch=master)](https://travis-ci.org/codetriage/docs_doctor)
 
 ## Manifesto
 
