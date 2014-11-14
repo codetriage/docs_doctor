@@ -45,7 +45,11 @@ puts DocFile.last.path
 
 ```ruby
 repo    = Repo.where(full_name: "rails/rails").first_or_create
-files   = '/Users/schneems/documents/projects/rails/**/*.rb'files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files) parser.process parser.store(repo)
+files   = '/Users/schneems/documents/projects/rails/**/*.rb'
+files   = '/Users/schneems/Documents/projects/rails/activerecord/lib/rails/generators/active_record/model/model_generator.rb'
+parser  = DocsDoctor::Parsers::Ruby::Rdoc.new(files)
+parser.process
+parser.store(repo)
 # DocFile.destroy_all repo = Repo.last
 doc  = repo.methods_missing_docs.first
 GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.doc_file.path, doc.line).to_github
@@ -61,14 +65,13 @@ parser.store(repo)
 doc  = repo.methods_missing_docs.first
 ```
 
-https://github.com/schneems/threaded_in_memory_queue/blob/master/threaded_in_memory_queue/test/threaded_in_memory_queue/master_test.rb/#L5
+* https://github.com/schneems/threaded_in_memory_queue/blob/master/threaded_in_memory_queue/test/threaded_in_memory_queue/master_test.rb/#L5
 
-https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_in_memory_queue/master_test.rb#L5
-
-
+* https://github.com/schneems/threaded_in_memory_queue/blob/master/test/threaded_in_memory_queue/master_test.rb#L5
 
 
-Grab all subscriptions, pull out one doc_method from each
+
+## Grab all subscriptions, pull out one doc_method from each
 
 
 ```ruby
