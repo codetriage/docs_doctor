@@ -40,9 +40,10 @@ module DocsDoctor
             # document original method instead
             # don't document initialize
             skip_write = obj.is_attribute? || obj.is_alias? || (obj.respond_to?(:is_constructor?) && obj.is_constructor?)
+            skip_read = obj.docstring.strip.eql? ":nodoc:"
 
             method = repo.doc_methods.where(name: obj.name, path: obj.path).first_or_initialize
-            method.assign_attributes(line: obj.line, file: obj.file, skip_write: skip_write) # line and file will change, do not want to accidentally create duplicate methods
+            method.assign_attributes(line: obj.line, file: obj.file, skip_write: skip_write, skip_read: skip_read) # line and file will change, do not want to accidentally create duplicate methods
             unless method.save
               puts "Could not store YARD object, missing one or more properties: #{method.errors.inspect}"
               return false

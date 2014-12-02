@@ -30,6 +30,7 @@ class RepoSubscription < ActiveRecord::Base
     repo.methods_with_docs.
          active.
          where("doc_methods.id not in (?)", pre_assigned_doc_method_ids).
+         where(skip_read: false).
          order("random()").
          limit(limit || DEFAULT_READ_LIMIT)
   end
