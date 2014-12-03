@@ -49,7 +49,11 @@
   <p>
     Want to get to know <%= @repo.name %> better? Sign up to receive one documented method or class in your inbox every day. It's an easy way to level up
   </p>
-  <%= button_to "I Want to Read: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, read: true, read_limit: 3}), :class => 'btn btn-primary btn-success' %>
+  <% if current_user %>
+    <%= button_to "I Want to Read: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, read: true, read_limit: 3}), :class => 'btn btn-primary btn-success' %>
+  <% else %>
+    <%= link_to "I Want to Read: #{@repo.username_repo}", new_user_registration_path, :class => 'btn btn-primary btn-success' %>
+  <% end %>
 <% end %>
 
 <hr />
@@ -66,7 +70,11 @@
   <p>
     Are you ready to give forwards, back, or sideways to <%= @repo.name %>. Sign up to receive an undocumented method or class in your inbox. Do some research, then go document it! Commits++
   </p>
-  <%= button_to "I Want to Write: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, write: true, write_limit: 3}), :class => 'btn btn-primary btn-success' %>
+  <% if current_user %>
+    <%= button_to "I Want to Write: #{@repo.username_repo}", repo_subscriptions_path(repo_subscription: {repo_id: @repo.id, write: true, write_limit: 3}), :class => 'btn btn-primary btn-success' %>
+  <% else %>
+    <%= link_to "I Want to Write: #{@repo.username_repo}", new_user_registration_path, :class => 'btn btn-primary btn-success' %>
+  <% end %>
 <% end %>
 
 <hr />
