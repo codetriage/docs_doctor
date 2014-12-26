@@ -30,6 +30,11 @@ Clone the repo then run:
 $ bundle install
 ```
 
+## Setup Authentication
+
+Need to set environment variables for login with github.
+Obtain the app_id and secret_token from https://github.com/settings/applications 
+
 ## Import from Local rails/rails
 
 
