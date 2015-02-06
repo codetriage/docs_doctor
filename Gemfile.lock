@@ -75,7 +75,7 @@ GEM
     json (1.8.1)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    kgio (2.8.0)
+    kgio (2.9.3)
     kramdown (1.1.0)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -113,7 +113,7 @@ GEM
     pg (0.15.1)
     polyglot (0.3.4)
     proc_to_lambda (1.0.0)
-    puma (2.3.2)
+    puma (2.11.0)
       rack (>= 1.1, < 2.0)
     q (0.0.1)
       proc_to_lambda
