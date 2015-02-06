@@ -33,7 +33,6 @@ gem 'pg'
 # gem 'ar_pg_array'
 gem 'resque'
 
-gem 'unicorn'
 gem 'omniauth-github'
 gem 'mail_view',          '~> 1.0.2'
 gem 'will_paginate'
