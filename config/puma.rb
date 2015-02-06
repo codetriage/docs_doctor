@@ -1,18 +1,16 @@
-WEB_CONCURRENCY = Integer(ENV['WEB_CONCURRENCY']|| 3)
+workers ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i
 
+threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
+threads threads_count, threads_count
 
-threads 1,5
-workers WEB_CONCURRENCY
+rackup DefaultRackup
+port ENV.fetch('PORT') { 3000 }
+environment ENV.fetch('RACK_ENV') { 'development' }
 preload_app!
 
 on_worker_boot do
-  # Replace with MongoDB or whatever
-  if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.establish_connection
-    Rails.logger.info('Connected to ActiveRecord')
-  end
-
-  # If you are using Redis but not Resque, change this
+  # worker specific setup
+  ActiveRecord::Base.establish_connection
 
   Resque.redis.redis.client.reconnect if Q.env.resque?
 end
