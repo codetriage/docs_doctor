@@ -4,7 +4,7 @@
 
 ## Manifesto
 
-Having well documented methods and classes make it much easier for coders to become contributors. This lib is intended to help maintainers and contributors find missing or lacking docs and fix them.
+Having well documented methods and classes makes it much easier for coders to become contributors. This lib is intended to help maintainers and contributors find missing or lacking docs and fix them.
 
 Want to get an easy commit on an open source project?
 
@@ -20,7 +20,7 @@ Want to make the world a better place for you and for future coders?
 
 ## How
 
-We use industry standard doc parsers (starting with RDoc, though other parsers and languages can be added later) to parse documentation for a given library. We store the results and flag undocumented methods/classes. Then anyone can sign up to receive one undocumented piece of code in your inbox
+We use industry standard doc parsers (starting with RDoc, though other parsers and languages can be added later) to parse documentation for a given library. We store the results and flag undocumented methods/classes. Then anyone can sign up to receive an undocumented piece of code in their inbox.
 
 ## Install Locally
 
@@ -33,7 +33,7 @@ $ bundle install
 ## Setup Authentication
 
 Need to set environment variables for login with github.
-Obtain the app_id and secret_token from https://github.com/settings/applications 
+Obtain the app_id and secret_token from https://github.com/settings/applications
 
 ## Import from Local rails/rails
 
