@@ -32,8 +32,24 @@ $ bundle install
 
 ## Setup Authentication
 
-Need to set environment variables for login with github.
-Obtain the app_id and secret_token from https://github.com/settings/applications
+You'll need to set environment variables for login with GitHub. To do so,
+visit https://github.com/settings/applications.
+
+Create a new app with these values:
+* Application name: [whatever you want]
+* Homepage URL: 127.0.0.1:3000
+* Application description: [whatever you want]
+* Authorization callback URL: http://127.0.0.1:3000/users/auth/github/callback
+
+You'll receive a Client ID and a Client Secret. Then, add them as environment variables.
+
+The simplest way to get up and running is:
+
+```sh
+touch .env && echo "GITHUB_APP_SECRET=[your app secret here]\nGITHUB_APP_ID=[your app id here]" > .env
+```
+
+Restart your server to pick up these changes.
 
 ## Import from Local rails/rails
 
