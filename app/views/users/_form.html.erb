@@ -3,12 +3,8 @@
   <div class="input">
     <%= f.text_field :email, :class => 'text_field' %>
   </div>
-   <%= f.label :daily_issue_limit, t("activerecord.attributes.user.daily_issue_limit", :default => "Max # of issues you want to receive per day"), :class => :label %>
-  <div class="input">
-    <%= f.number_field :daily_issue_limit, :class => 'number_field' %>
-  </div>
-  <%= f.label :skip_issues_with_pr, t("activerecord.attributes.user.skip_issues_with_pr", :default => "Skip Issues with Pull requests"), :class => :label %>
-  <%= f.check_box :skip_issues_with_pr, :class => 'checkbox' %>
+  <%= f.label :private, t("activerecord.attributes.user.private", :default => "Make my account private"), :class => :label %>
+  <%= f.check_box :private, :class => 'checkbox' %>
 </div>
 
 <div class="form-actions">
