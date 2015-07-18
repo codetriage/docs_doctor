@@ -37,7 +37,7 @@ visit https://github.com/settings/applications.
 
 Create a new app with these values:
 * Application name: [whatever you want]
-* Homepage URL: 127.0.0.1:3000
+* Homepage URL: http://127.0.0.1:3000
 * Application description: [whatever you want]
 * Authorization callback URL: http://127.0.0.1:3000/users/auth/github/callback
 
