@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   validates_uniqueness_of :email, allow_blank: true, :if => :email_changed?
-  validates_length_of     :password, within: 8..128
+  validates_length_of     :password, within: 8..128, allow_blank: true
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :private, :email, :password, :password_confirmation, :remember_me, :zip, :phone_number, :twitter,
