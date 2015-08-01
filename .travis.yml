@@ -5,6 +5,10 @@ rvm:
 script:
 - RAILS_ENV=test bundle exec rake --trace db:create db:migrate test
 deploy:
+  provider: heroku
   api_key:
-    secure: TlA5hVmXl3iaYE2W0yVIMya6Fp6XHlVapueDtRo3ifs9w2MLMfvmQtYEui+Ltleytz8ge/IAfQe6ZYB80yPOom/a5B5+yRiB1mPdsflMflIKNy/N2hzSJoLnxolDy/8oSkfJ5GQHY/PTPn8/Oz43cQBRN+AETDwAqLkpN55/2Xo=
+    secure: guB9/2zuhMxe2dAao0NphB5+IczdUNIR/DBP9pvtQeSnRjQz4jgpD6WS2ju9rBbkyWf3r0uJA2aom0z4L3LIh6vlYuU0zyKYI3wSsEfzJvNwkLw2AulsizgUlLmDExnT4JtlZoQZK4ndA/taRZ/u12e5P2lYrEndkyWyOUJ4qOk=
+  app: docsdoctor
+  on:
+    repo: codetriage/docs_doctor
   run: "bin/rake db:migrate"
