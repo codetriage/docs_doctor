@@ -22,6 +22,7 @@ class Repo < ActiveRecord::Base
 
   def process!
     fetcher = GithubFetcher.new(full_name)
+    self.update!(commit_sha: fetcher.commit_sha)
     parser  = DocsDoctor::Parsers::Ruby::Yard.new(fetcher.clone)
     parser.process
     parser.store(self)

@@ -10,6 +10,10 @@ class GithubFetcher
     return dir
   end
 
+  def commit_sha
+    ::GitHubBub.get(File.join(repo_path, 'commits', repo_json['default_branch'])).json_body['sha']
+  end
+
   def dir
     @dir ||= Dir.mktmpdir
   end

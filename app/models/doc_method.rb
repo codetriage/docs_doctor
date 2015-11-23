@@ -27,4 +27,9 @@ class DocMethod < ActiveRecord::Base
     absolute, match, relative = raw_file.partition(/(\/|^)#{repo.name}\//)
     return relative
   end
+
+  # converts a doc method to a github path
+  def to_github
+    GithubUrlFromBasePathLine.new(repo.github_url, repo.commit_sha, file, line).to_github
+  end
 end

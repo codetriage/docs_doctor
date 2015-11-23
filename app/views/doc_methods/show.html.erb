@@ -1,4 +1,4 @@
-<h2><%= link_to @doc.path, GithubUrlFromBasePathLine.new(@doc.repo.github_url, @doc.file, @doc.line).to_github %></h2>
+<h2><%= link_to @doc.path, @doc.to_github %></h2>
 <p><%= link_to @doc.repo.full_name, @doc.repo %></p>
 
 <h3>Docs:</h3>
@@ -11,7 +11,7 @@
   <% end %>
 </p>
 <p>
-  <%= link_to "Source", GithubUrlFromBasePathLine.new(@doc.repo.github_url, @doc.file, @doc.line).to_github %> |
+  <%= link_to "Source", @doc.to_github %> |
   <%= link_to "Google", "https://www.google.com/search?q=#{URI.encode(@doc.path)}" %> |
   <%= link_to "Stack overflow", "http://stackoverflow.com/search?q=#{URI.encode(@doc.path)}" %>
 </p>
