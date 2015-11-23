@@ -73,7 +73,7 @@ parser.process
 parser.store(repo)
 # DocFile.destroy_all repo = Repo.last
 doc  = repo.methods_missing_docs.first
-GithubUrlFromBasePathLine.new(doc.repo.github_url, doc.doc_file.path, doc.line).to_github
+doc.to_github
 
 
 repo    = Repo.where(full_name: "rails/rails").first_or_create

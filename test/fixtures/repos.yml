@@ -7,6 +7,7 @@ issue_triage_sandbox:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 1
+  commit_sha: e01441fedcf95651acc6b7690e1f35857a74b449
 
 rails_rails:
   id: 2
@@ -17,6 +18,7 @@ rails_rails:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 0
+  commit_sha: 14314ca18302f18c3d8bb7a63e9f71ac4c2290c2
 
 sinatra_sinatra:
   id: 3
@@ -27,6 +29,7 @@ sinatra_sinatra:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 1
+  commit_sha: fabf8efc451f361c444b288eb94292593f340f77
 
 node:
   id: 4
@@ -37,6 +40,7 @@ node:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 0
+  commit_sha: ed0d1c384cd4578f7168633c838f1252bddb260e
 
 groovebasin:
   id: 5
@@ -47,8 +51,7 @@ groovebasin:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 1
-
-
+  commit_sha: 3a61986931d95ab1d1d2080e678907f029750573
 
 threaded:
   id: 6
@@ -59,3 +62,4 @@ threaded:
   created_at: 2012-11-10 21:50:48.351554000 Z
   updated_at: 2012-11-10 21:50:48.351554000 Z
   issues_count: 1
+  commit_sha: c55e2cd91c038ef6924988ed6f53e8c77eb59246
