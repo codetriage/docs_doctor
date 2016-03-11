@@ -2,7 +2,7 @@ class Repo < ActiveRecord::Base
   include Q::Methods
 
   #validate :github_url_exists, :on => :create
-  validate :name, uniqueness: {scope: :user_name, case_sensitive: false }
+  validates :name, uniqueness: {scope: :user_name, case_sensitive: false }
 
   after_create ->(repo) { Repo.queue.update_repo_info(repo.id) },
                ->(repo) { Repo.queue.populate_docs(repo.id)    }
