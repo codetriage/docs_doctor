@@ -67,7 +67,7 @@ module DocsDoctor
           # yard.use_cache = false'
 
           Dir.chdir(root_path) do
-            yard.run
+            yard.run(root_path.to_s)
           end
 
           @yard_objects = YARD::Registry.all

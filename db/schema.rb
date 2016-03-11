@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "doc_assignments", force: true do |t|
+  create_table "doc_assignments", force: :cascade do |t|
     t.integer  "repo_id"
     t.integer  "repo_subscription_id"
     t.integer  "user_id"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
   add_index "doc_assignments", ["repo_subscription_id"], name: "index_doc_assignments_on_repo_subscription_id", using: :btree
   add_index "doc_assignments", ["user_id"], name: "index_doc_assignments_on_user_id", using: :btree
 
-  create_table "doc_classes", force: true do |t|
+  create_table "doc_classes", force: :cascade do |t|
     t.integer  "repo_id"
     t.string   "name"
     t.datetime "created_at"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
 
   add_index "doc_classes", ["repo_id"], name: "index_doc_classes_on_repo_id", using: :btree
 
-  create_table "doc_comments", force: true do |t|
+  create_table "doc_comments", force: :cascade do |t|
     t.integer  "doc_class_id"
     t.integer  "doc_method_id"
     t.text     "comment"
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
   add_index "doc_comments", ["doc_class_id"], name: "index_doc_comments_on_doc_class_id", using: :btree
   add_index "doc_comments", ["doc_method_id"], name: "index_doc_comments_on_doc_method_id", using: :btree
 
-  create_table "doc_methods", force: true do |t|
+  create_table "doc_methods", force: :cascade do |t|
     t.integer  "repo_id"
     t.string   "name"
     t.integer  "line"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
 
   add_index "doc_methods", ["repo_id"], name: "index_doc_methods_on_repo_id", using: :btree
 
-  create_table "repo_subscriptions", force: true do |t|
+  create_table "repo_subscriptions", force: :cascade do |t|
     t.datetime "last_sent_at"
     t.integer  "email_limit",  default: 1
     t.integer  "user_id"
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
   add_index "repo_subscriptions", ["repo_id"], name: "index_repo_subscriptions_on_repo_id", using: :btree
   add_index "repo_subscriptions", ["user_id"], name: "index_repo_subscriptions_on_user_id", using: :btree
 
-  create_table "repos", force: true do |t|
+  create_table "repos", force: :cascade do |t|
     t.string   "name"
     t.string   "user_name"
     t.integer  "issues_count", default: 0, null: false
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20151123190940) do
     t.string   "commit_sha"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",                                   null: false
     t.string   "encrypted_password",     default: "",                                   null: false
     t.string   "reset_password_token"

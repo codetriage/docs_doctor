@@ -4,7 +4,7 @@ ruby '2.3.0'
 
 gem 'q'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.1'
+gem 'rails', '4.2.5.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc1'
@@ -58,7 +58,7 @@ group :test do
   gem 'mocha', require: false
 end
 
-gem 'devise',                  "~> 3.2.2"
+gem 'devise',                  "~> 3.5.5"
 
 gem 'dotenv-rails', :groups => [:development, :test]
 
@@ -82,3 +82,8 @@ end
 gem 'rdoc', '~>4.0.1'
 gem 'yard'
 gem 'maildown'
+
+gem "test-unit"
+
+gem "threaded"
+
