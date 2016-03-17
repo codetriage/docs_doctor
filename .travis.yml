@@ -3,7 +3,7 @@ language: ruby
 rvm:
 - 2.3.0
 script:
-- RAILS_ENV=test bundle exec rake --trace db:create db:migrate test
+- RAILS_ENV=test bundle exec rake db:create db:migrate test -- --trace
 deploy:
   provider: heroku
   api_key:
