@@ -28,7 +28,7 @@ DocsDoctorWeb::Application.routes.draw do
   scope format: false do
     resources :repos, only: %w[index new create]
 
-    scope ':full_name' do
+    scope '*full_name' do
       constraints full_name: %r{[-_.a-zA-Z0-9]+/[-_.a-zA-Z0-9]+} do
         get '/',            to: 'repos#show',        as: 'repo'
         put '/',            to: 'repos#update',      as:  nil
