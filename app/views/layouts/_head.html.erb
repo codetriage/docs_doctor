@@ -53,4 +53,8 @@
           </div>
         <% end %>
       <% end %>
+      <div class='alert alert-block <%="alert-error" %>'>
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        <%= content_tag :p, "DocsDoctor is deprecated use <a href='https://www.codetriage.com' >CodeTriage.com </a>instead".html_safe %>
+      </div>
     </div>

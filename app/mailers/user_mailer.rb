@@ -11,8 +11,24 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: subject)
   end
 
+  # general purpose mailer for sending out admin communications, only use from one off tasks
+  def spam(user, message:, subject:)
+    @user    = user
+    @message = message
+    mail(to: @user.email, reply_to: "noreply@codetriage.com", subject: subject)
+  end
 
   class Preview < MailView
+
+    # Pull data from existing fixtures
+    def send_spam
+      user    = User.last
+      message = "Hey, we just launched something big http://google.com"
+      subject = "Big launch"
+      ::UserMailer.spam(user, message: message, subject: subject)
+    end
+
+
     # Pull data from existing fixtures
     def daily_docs
       user       = User.last
