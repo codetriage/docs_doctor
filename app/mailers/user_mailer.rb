@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
     @write_docs = options[:write_docs]
     @read_docs  = options[:read_docs]
     count       = (@write_docs.try(:count) || 0) + (@read_docs.try(:count) || 0)
-    subject     = "Check out #{count} Open Source #{"Doc".pluralize(count)}"
+    subject     = "Docs Doctor is Deprecated Use CodeTriage.com instead"
     mail(to: @user.email, subject: subject)
   end
 
